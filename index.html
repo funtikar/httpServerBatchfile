@@ -1,0 +1,38 @@
+<html>
+  <head>
+    <title>List View App</title>
+  </head>
+  <body>
+    <div id="list-view"></div>
+    <audio id="notification-sound" src="notification.mp3"></audio>
+    <script>
+      const apiKey = "recHE4UEOOc37lhev";
+      const apiUrl =
+        "https://api.airtable.com/v0/appwFb0aniUzAcNEi/Table%201?maxRecords=3&view=Grid%20view";
+
+      function updateListView() {
+        fetch(apiUrl, {
+          headers: {
+            Authorization: `Bearer ${apiKey}`,
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            const records = data.records;
+            const listItems = records.map((record) => {
+              const name = record.fields.Name;
+              const message = record.fields.Message;
+              return `<li>${name}: ${message}</li>`;
+            });
+            document.getElementById("list-view").innerHTML = listItems.join("");
+            const notificationSound = new Audio(
+              document.getElementById("notification-sound").src
+            );
+            notificationSound.play();
+          });
+      }
+
+      setInterval(updateListView, 1000);
+    </script>
+  </body>
+</html>
