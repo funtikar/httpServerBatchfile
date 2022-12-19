@@ -1,14 +1,17 @@
+
 <html>
   <head>
     <title>List View App</title>
   </head>
   <body>
     <div id="list-view"></div>
-    <audio id="notification-sound" src="notification.mp3"></audio>
+    <audio id="notification-sound" src="https://download.samplelib.com/mp3/sample-3s.mp3"></audio>
+    <button id="stop-button">Stop Sound</button>
     <script>
-      const apiKey = "recHE4UEOOc37lhev";
+      const apiKey = "keyEZU6tfrlFTpSta";
       const apiUrl =
-        "https://api.airtable.com/v0/appwFb0aniUzAcNEi/Table%201?maxRecords=3&view=Grid%20view";
+        "https://api.airtable.com/v0/appwFb0aniUzAcNEi/Table%201?maxRecords=99&view=Grid%20view";
+      let notificationSound;
 
       function updateListView() {
         fetch(apiUrl, {
@@ -25,7 +28,7 @@
               return `<li>${name}: ${message}</li>`;
             });
             document.getElementById("list-view").innerHTML = listItems.join("");
-            const notificationSound = new Audio(
+            notificationSound = new Audio(
               document.getElementById("notification-sound").src
             );
             notificationSound.play();
@@ -33,6 +36,10 @@
       }
 
       setInterval(updateListView, 1000);
+
+      document.getElementById("stop-button").addEventListener("click", () => {
+        notificationSound.pause();
+      });
     </script>
   </body>
 </html>
